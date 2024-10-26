@@ -21,7 +21,7 @@ def current_dir() -> str:
     return current_folder
 
 
-def list_archive_files() -> list[str]:
+def list_archive_files() -> None:
     """
     Список всех файлов в zip-архиве.
     Returns:
@@ -29,8 +29,8 @@ def list_archive_files() -> list[str]:
     """
     # Открываем zip-файл в текущей директории, в папке src, с именем FILENAME_ZIP
     with ZipFile(Path(current_dir()) / SRC / FILENAME_ZIP, 'r') as zFile:
-        # Возвращаем список всех файлов в архиве
-         return zFile.namelist()
+        for file in zFile.namelist():
+            print(file)
 
 
 def main() -> None:
@@ -39,9 +39,7 @@ def main() -> None:
 
     # Выводим список файлов в архиве
     print("Список файлов в архиве: ")
-    file_list: list[str] = list_archive_files()
-    for file in file_list:
-        print(file)
+    list_archive_files()
 
 
 if __name__ == "__main__":
