@@ -36,14 +36,14 @@ def current_dir() -> str:
     return current_folder
 
 
-def list_archive_files() -> None:
+def list_archive_files(folder: str, filename_zip: str) -> None:
     """
     Список всех файлов в zip-архиве.
     Returns:
     list[str]: Список имен файлов в архиве.
     """
     # Открываем zip-файл в текущей директории, в папке src, с именем FILENAME_ZIP
-    with ZipFile(Path(current_dir()) / SRC / FILENAME_ZIP, 'r') as zFile:
+    with ZipFile(Path(current_dir()) / folder / filename_zip, 'r') as zFile:
         for file in zFile.namelist():
             print(file)
 
@@ -96,8 +96,7 @@ def main() -> None:
 
     # Выводим список файлов в архиве
     print("Список файлов в архиве: ")
-    list_archive_files()
-
+    list_archive_files(SRC, FILENAME_ZIP)
     # Извлекаем файл презентации
     extract_pptx_from_zip(SRC, FILENAME_ZIP, EXTRACTION_DIR)
     # Открываем и выводим содержимое выбранной презентации
