@@ -15,7 +15,7 @@ def current_dir() -> str:
     """
 
     # Получаем текущий каталог, в котором находится скрипт
-    current_folder: str = os.path.dirname(__file__)
+    current_folder: str = os.path.dirname(os.path.realpath(__file__))
 
     # Возвращаем путь к текущему каталогу
     return current_folder
