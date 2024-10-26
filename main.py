@@ -1,7 +1,7 @@
 import os  # Импорт модуля os для работы с операционной системой
 
 
-def current_dir():
+def current_dir() -> str:
     """
     Получает путь к текущей директории.
     Returns:
@@ -9,12 +9,16 @@ def current_dir():
     """
 
     # Получаем текущий каталог, в котором находится скрипт
-    current_folder = os.path.dirname(__file__)
+    current_folder: str = os.path.dirname(__file__)
 
     # Возвращаем путь к текущему каталогу
     return current_folder
 
 
-if __name__ == "__main__":
+def main() -> None:
     # Выводим путь к текущему каталогу
     print(f"Путь: {current_dir()}")
+
+
+if __name__ == "__main__":
+    main()
