@@ -82,6 +82,10 @@ def open_pptx_with_pptx_library(extract_dir: str, pptx_file: dict[int, str], num
         for slide in prs.slides:
             # Для каждого слайда проходим по всем шаблонам (shapes)
             for shape in slide.shapes:
+                if not shape.has_text_frame:
+                    continue
+                print(shape.text_frame)
+
                 # Проверяем, имеет ли шаблон текст
                 if hasattr(shape, 'text'):
                     # Если у шаблона есть текст, выводим его
