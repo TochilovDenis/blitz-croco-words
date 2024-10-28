@@ -85,11 +85,12 @@ def open_pptx_with_pptx_library(extract_dir: str, pptx_file: dict[int, str], num
                 if not shape.has_text_frame:
                     continue
                 print(shape.text_frame)
+                print(shape.text)
 
                 # Проверяем, имеет ли шаблон текст
-                if hasattr(shape, 'text'):
-                    # Если у шаблона есть текст, выводим его
-                    print(shape.text)
+                # if hasattr(shape, 'text'):
+                #     # Если у шаблона есть текст, выводим его
+                #     print(shape.text)
     except Exception as e:
         print(f"Ошибка при открытии презентации: {e}")
 
