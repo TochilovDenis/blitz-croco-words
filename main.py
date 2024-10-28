@@ -98,7 +98,7 @@ def open_pptx_with_pptx_library(extract_dir: str, pptx_file: dict[int, str], num
         print(f"Ошибка при открытии презентации: {e}")
 
 
-def extract_words_from_pptx(extract_dir: str, pptx_file: dict[int, str], number: int):
+def extract_words_from_pptx(extract_dir: str, pptx_file: dict[int, str], number: int) -> list[str]:
     words: list = []
     try:
         pptx: str = pptx_file[number]
@@ -119,10 +119,10 @@ def extract_words_from_pptx(extract_dir: str, pptx_file: dict[int, str], number:
     return words
 
 
-def write_txt(filename:str, extracted_words):
+def write_txt(filename:str, extracted_words: list[str]):
     with open(filename, 'w', encoding='utf-8') as f:
         for word in extracted_words:
-            f.write(word + '\n')
+            f.write("".join(word) + '\n')
     print(f'Слова сохранены в {filename}')
 
 
