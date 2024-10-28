@@ -2,6 +2,7 @@ import os  # Импорт модуля os для работы с операци�
 from zipfile import ZipFile  # Импорт класса ZipFile из модуля zipfile для работы с zip-файлами
 from pathlib import Path # Импорт класса Path из модуля pathlib для удобной работы с путями
 from pptx import Presentation # Импорт класса Presentation из модуля pptx для работы с презентациями
+from random import randint
 
 # Константы
 SRC = 'src'  # Папка с исходным кодом
@@ -12,15 +13,15 @@ FILENAME_TXT: str = 'words.txt'
 
 # Словарь с номерами и соответствующими им именами файлов презентаций
 PPTX: dict[int, str] = {
-    3: "Osennyaya_igra_3.pptx",
-    1: "Zimnyaya_igra_1.pptx",
-    12: "Osennyaya_igra_12.pptx",
-    11: "Osennyaya_igra_11.pptx",
-    10: "Osennyaya_igra_10.pptx",
-    9: "Osennyaya_igra_9.pptx",
-    6: "Osennyaya_igra_6.pptx",
-    5: "Osennyaya_igra_5.pptx",
-    4: "Osennyaya_igra_4.pptx"
+    1: "Osennyaya_igra_3.pptx",
+    2: "Zimnyaya_igra_1.pptx",
+    3: "Osennyaya_igra_12.pptx",
+    4: "Osennyaya_igra_11.pptx",
+    5: "Osennyaya_igra_10.pptx",
+    6: "Osennyaya_igra_9.pptx",
+    7: "Osennyaya_igra_6.pptx",
+    8: "Osennyaya_igra_5.pptx",
+    9: "Osennyaya_igra_4.pptx"
 }
 
 
@@ -86,7 +87,7 @@ def open_pptx_with_pptx_library(extract_dir: str, pptx_file: dict[int, str], num
             for shape in slide.shapes:
                 if not shape.has_text_frame:
                     continue
-                print(shape.text_frame)
+                # print(shape.text_frame)
                 print(shape.text)
 
                 # Проверяем, имеет ли шаблон текст
@@ -108,7 +109,9 @@ def extract_words_from_pptx(extract_dir: str, pptx_file: dict[int, str], number:
             for shape in slide.shapes:
                 if hasattr(shape, 'text'):
                     text: str = shape.text
-                    words.extend(text.split())
+                    if ' ' in text or ':' in text or 'БЛИЦ-КРОКОДИЛ' in text:
+                        continue
+                    words.append(text)
 
     except Exception as e:
         print(f"Ошибка при открытии презентации: {e}")
@@ -133,9 +136,10 @@ def main() -> None:
     # Извлекаем файл презентации
     extract_pptx_from_zip(SRC, FILENAME_ZIP, EXTRACTION_DIR)
     # Открываем и выводим содержимое выбранной презентации
-    open_pptx_with_pptx_library(EXTRACTION_DIR, PPTX, 12)
+    open_file_pptx: int = randint(1, 9)
+    open_pptx_with_pptx_library(EXTRACTION_DIR, PPTX, open_file_pptx)
 
-    extracted_words = extract_words_from_pptx(EXTRACTION_DIR, PPTX, 12)
+    extracted_words: list[str] = extract_words_from_pptx(EXTRACTION_DIR, PPTX, open_file_pptx)
     write_txt(FILENAME_TXT, extracted_words)
 
 
