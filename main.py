@@ -99,18 +99,34 @@ def open_pptx_with_pptx_library(extract_dir: str, pptx_file: dict[int, str], num
 
 
 def extract_words_from_pptx(extract_dir: str, pptx_file: dict[int, str], number: int) -> list[str]:
-    words: list = []
-    try:
-        pptx: str = pptx_file[number]
-        path: str = os.path.join(extract_dir, pptx)
-        prs: PPTX = Presentation(path)
+    """
+    Извлекает слова из презентации.
 
+    Args:
+    extract_dir (str): Директория с извлеченными файлами презентаций
+    pptx_file (dict[int, str]): Словарь с номерами и именами файлов презентаций
+    number (int): Номер выбранной презентации
+
+    Returns:
+    list[str]: Список извлеченных слов
+    """
+    words: list = []  # Инициализируем пустой список строк
+    try:
+        pptx: str = pptx_file[number]  # Получаем имя файла презентации по указанному номеру
+        path: str = os.path.join(extract_dir, pptx)  # Создаем полный путь к файлу презентации
+        prs: PPTX = Presentation(path)  # Открываем презентацию
+
+        # Проходим по всем слайдам в презентации
         for slide in prs.slides:
+            # Для каждого слайда проходим по всем шаблонам (shapes)
             for shape in slide.shapes:
+                # Проверяем, имеет ли шаблон текст
                 if hasattr(shape, 'text'):
                     text: str = shape.text
+                    # Исключаем пустые строки, строки, содержащие двоеточие или слово "БЛИЦ-КРОКОДИЛ"
                     if ' ' in text or ':' in text or 'БЛИЦ-КРОКОДИЛ' in text:
                         continue
+                    # Если строка соответствует условиям, добавляем ее в список слов
                     words.append(text)
 
     except Exception as e:
@@ -120,6 +136,16 @@ def extract_words_from_pptx(extract_dir: str, pptx_file: dict[int, str], number:
 
 
 def write_txt(filename:str, extracted_words: list[str]):
+    """
+    Записывает извлеченные слова в текстовый файл.
+
+    Args:
+    filename (str): Имя файла для сохранения
+    extracted_words (list[str]): Список извлеченных слов
+
+    Returns:
+    None
+    """
     with open(filename, 'w', encoding='utf-8') as f:
         for word in extracted_words:
             f.write("".join(word) + '\n')
@@ -139,7 +165,9 @@ def main() -> None:
     open_file_pptx: int = randint(1, 9)
     open_pptx_with_pptx_library(EXTRACTION_DIR, PPTX, open_file_pptx)
 
+    # Извлекаем слова из презентации
     extracted_words: list[str] = extract_words_from_pptx(EXTRACTION_DIR, PPTX, open_file_pptx)
+    # Записываем слова в файл
     write_txt(FILENAME_TXT, extracted_words)
 
 
