@@ -7,6 +7,8 @@ from pptx import Presentation # Импорт класса Presentation из мо
 SRC = 'src'  # Папка с исходным кодом
 FILENAME_ZIP = 'croco-blitz-source.zip'  # Имя файла архива
 EXTRACTION_DIR: str = "PPTX"  # Директория для извлечения файлов презентаций
+FILENAME_TXT: str = 'words.txt'
+
 
 # Словарь с номерами и соответствующими им именами файлов презентаций
 PPTX: dict[int, str] = {
@@ -95,6 +97,32 @@ def open_pptx_with_pptx_library(extract_dir: str, pptx_file: dict[int, str], num
         print(f"Ошибка при открытии презентации: {e}")
 
 
+def extract_words_from_pptx(extract_dir: str, pptx_file: dict[int, str], number: int):
+    words: list = []
+    try:
+        pptx: str = pptx_file[number]
+        path: str = os.path.join(extract_dir, pptx)
+        prs: PPTX = Presentation(path)
+
+        for slide in prs.slides:
+            for shape in slide.shapes:
+                if hasattr(shape, 'text'):
+                    text: str = shape.text
+                    words.extend(text.split())
+
+    except Exception as e:
+        print(f"Ошибка при открытии презентации: {e}")
+
+    return words
+
+
+def write_txt(filename:str, extracted_words):
+    with open(filename, 'w', encoding='utf-8') as f:
+        for word in extracted_words:
+            f.write(word + '\n')
+    print(f'Слова сохранены в {filename}')
+
+
 def main() -> None:
     # Выводим путь к текущему каталогу
     print(f"Путь: {current_dir()}")
@@ -106,6 +134,9 @@ def main() -> None:
     extract_pptx_from_zip(SRC, FILENAME_ZIP, EXTRACTION_DIR)
     # Открываем и выводим содержимое выбранной презентации
     open_pptx_with_pptx_library(EXTRACTION_DIR, PPTX, 12)
+
+    extracted_words = extract_words_from_pptx(EXTRACTION_DIR, PPTX, 12)
+    write_txt(FILENAME_TXT, extracted_words)
 
 
 if __name__ == "__main__":
