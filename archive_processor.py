@@ -29,7 +29,11 @@ def get_extract_pptx_from_zip(folder: str, zip_file: str, extraction_dir: str):
     print(f"Файлы из {zip_file} распакованы в {extraction_dir}")
 
 
-def get_extract_pptx_text(zip_file_paths: Path):
+def is_not_valid(text: str) -> bool:
+    return ' ' in text or '-' in text or ':' in text or 'СУПЕРКРОКО' in text or 'БЛИЦ-КРОКОДИЛ' in text
+
+
+def get_extract_pptx_text(zip_file_paths: Path) -> list[str]:
     with ZipFile(Path(get_current_dir())/zip_file_paths, 'r') as zip_ref:
         file_list = zip_ref.namelist()
         pptx_files = [f for f in file_list]
@@ -42,7 +46,7 @@ def get_extract_pptx_text(zip_file_paths: Path):
                 for shape in slide.shapes:
                     if hasattr(shape, 'text'):
                         text: str = shape.text
-                        if ' ' in text or ':' in text or 'БЛИЦ-КРОКОДИЛ' in text:
+                        if is_not_valid(text):
                             continue
                         words.append(text)
                         print(text)

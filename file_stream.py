@@ -1,4 +1,4 @@
-def write_txt(filename:str, extracted_words: list[str]):
+def write_txt(filename:str, extracted_words: list[str] or str):
     """
     Записывает извлеченные слова в текстовый файл.
 

@@ -3,7 +3,7 @@ from pathlib import Path
 from archive_processor import get_list_archive_files, get_extract_pptx_from_zip, get_extract_pptx_text
 from file_stream import write_txt
 from get_current_dir import get_current_dir
-from path_to_archive import SRC, FILENAME_ZIP, EXTRACTION_DIR, PPTX, WORDS_TXT_0, WORDS_TXT_1
+from path_to_archive import SRC, FILENAME_ZIP, EXTRACTION_DIR, PPTX, WORDS_TXT_0, WORDS_TXT_1, WORDS_TXT_2
 from pptx_processor import get_open_pptx_with_pptx_library, get_extract_words_from_pptx
 
 
@@ -29,8 +29,10 @@ def main() -> None:
     # Извлекаем презентации слова
     zip_file_path: Path = Path(SRC) / FILENAME_ZIP
     words: list[str] = get_extract_pptx_text(zip_file_path)
+    print(f"{len(words)} слов с дубликатами и {len(set(words))} без дубликатов")
     # Записываем слова в файл
-    write_txt(WORDS_TXT_1, words)
+    set_words: set = set(words)
+    write_txt(WORDS_TXT_1, set_words)
     print(f"\nОбработка завершена. Слова сохранены в {WORDS_TXT_1}")
 
 
