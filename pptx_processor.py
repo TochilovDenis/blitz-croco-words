@@ -29,6 +29,10 @@ def get_open_pptx_with_pptx_library(extract_dir: str, pptx_file: dict[int, str],
         print(f"Ошибка при открытии презентации: {e}")
 
 
+def is_not_valid(text: str) -> bool:
+    return ' ' in text or '-' in text or ':' in text or 'СУПЕРКРОКО' in text or 'БЛИЦ-КРОКОДИЛ' in text
+
+
 def get_extract_words_from_pptx(extract_dir: str, pptx_file: dict[int, str], number: int) -> list[str]:
     """
     Извлекает слова из презентации.
@@ -51,7 +55,7 @@ def get_extract_words_from_pptx(extract_dir: str, pptx_file: dict[int, str], num
             for shape in slide.shapes:
                 if hasattr(shape, 'text'):
                     text: str = shape.text
-                    if ' ' in text or ':' in text or 'БЛИЦ-КРОКОДИЛ' in text:
+                    if is_not_valid(text):
                         continue
                     words.append(text)
         return words
