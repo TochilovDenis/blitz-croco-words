@@ -7,7 +7,7 @@ def is_not_valid(text: str) -> bool:
 
 
 def get_words_form_file(file: IO[bytes] | TextIO) -> list[str]:
-    print(f"getting words from {file.name} file")
+    print(f"Получение слов из файла {file.name}")
 
     prs = Presentation(file)
 
@@ -21,15 +21,15 @@ def get_words_form_file(file: IO[bytes] | TextIO) -> list[str]:
                 continue
             result.append(shape.text.strip())
 
-    print(f"getting words done. got {len(result)} words")
+    print(f"Получение слов выполнено. получено {len(result)} слов")
 
     return result
 
 
-def save_words_to_file(words: set[str], filename: str) -> None:
-    print(f"saving {len(words)} words to {filename} file")
+def save_words_to_file(words: list[str] or set[str], filename: str) -> None:
+    print(f"Сохранение {len(words)} слов в {filename} файл")
 
     with open(file=filename, mode='w', encoding='utf-8') as file:
         file.writelines([word + "\n" for word in words])
 
-    print(f"saving words done")
+    print(f"Готово")
