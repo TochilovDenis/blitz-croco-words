@@ -17,5 +17,12 @@ def read_archive_file():
     save_words_to_file(checked_words_string, 'words_2.txt')
 
 
+def main():
+    spell_check: list[str] = ["Колакал", "малако"]
+    print(*check_spelling(spell_check))
+
+
 if __name__ == "__main__":
+    main()
+    print()
     read_archive_file()
