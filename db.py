@@ -1,12 +1,21 @@
-import sqlite3
+import sqlite3  # для работы с SQLite базами данных
 
 
 def main() -> None:
+    # Устанавливаем соединение с базой данных SQLite
     con = sqlite3.connect('words.db')
-    cur = con.cursor()
-    con.execute("CREATE TABLE IF NOT EXISTS movie(title, year, score)")
 
+    # Создаем объект курсора для выполнения SQL-запросов
+    cur = con.cursor()
+
+    # Создаем таблицу 'movie' с колонками title, year и score
+    # Используем IF NOT EXISTS, чтобы избежать ошибок при повторном создании таблицы
+    con.execute("CREATE TABLE IF NOT EXISTS movie(title TEXT, year INTEGER, score REAL)")
+
+    # Выполняем запрос для получения имен всех таблиц в базе данных
     res = con.execute("SELECT name FROM sqlite_master")
+
+    # Получаем результат запроса
     res = res.fetchone()
     print(type(res)) # <class 'tuple'>
     print(res) # ('movie',)
