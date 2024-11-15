@@ -10,7 +10,7 @@ def main() -> None:
 
     # Создаем таблицу 'movie' с колонками title, year и score
     # Используем IF NOT EXISTS, чтобы избежать ошибок при повторном создании таблицы
-    con.execute("CREATE TABLE IF NOT EXISTS movie(title TEXT, year INTEGER, score REAL)")
+    con.execute("CREATE TABLE IF NOT EXISTS movie(title, year, score)")
 
     # Выполняем запрос для получения имен всех таблиц в базе данных
     res = con.execute("SELECT name FROM sqlite_master")
@@ -38,4 +38,17 @@ if __name__ == '__main__':
 6. Это указывает на то, что предыдущий запрос создания таблицы успешно выполнился и таблица 'movie' была добавлена в базу данных SQLite.
 
 Таким образом, код подтвердил успешное подключение к базе данных, создание таблицы 'movie' и ее существование в базе данных SQLite.
+"""
+
+
+"""
+Задача 2024.11.15.13
+
+(Задача 2024.11.15.12
+Что делает запрос SELECT name FROM sqlite_master?)
+
+Исходя из того, что успешный запрос в 12 задаче делается к таблице sqlite_master, 
+а в списке таблиц её нет - что можно об этом сказать?
+
+это встроенная таблица в sqlite. она служебная!
 """
