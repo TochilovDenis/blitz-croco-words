@@ -12,7 +12,7 @@ def add_data(con: sqlite3.Connection, table_name, data_dict: list[tuple[str, int
         None
     """
     # Создаем список значений для вставки
-    values = [str(value) for value in data_dict]
+    values = [value for value in data_dict]
     cur = con.cursor()
     cur.executemany(f"INSERT INTO {table_name} VALUES({', '.join(['?' for _ in values])})", data_dict)
     con.commit()
@@ -37,9 +37,6 @@ def main() -> None:
 
     # Добавляем данные в указанную таблицу
     add_data(con, "movie", data)
-
-    # Сохраняем изменения в базе данных
-    con.commit()
 
 
 if __name__ == '__main__':
