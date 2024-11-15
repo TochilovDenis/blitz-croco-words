@@ -7,8 +7,9 @@ def main() -> None:
     con.execute("CREATE TABLE IF NOT EXISTS movie(title, year, score)")
 
     res = con.execute("SELECT name FROM sqlite_master")
-    print(type(res))  # <class 'sqlite3.Cursor'>
-    print(res)  # <sqlite3.Cursor object at 0x0000019942026F40>
+    res = res.fetchone()
+    print(type(res)) # <class 'tuple'>
+    print(res) # ('movie',)
 
 
 if __name__ == '__main__':
