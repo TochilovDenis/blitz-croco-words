@@ -1,6 +1,18 @@
 import sqlite3  # для работы с SQLite базами данных
 
 
+def add_data(con: sqlite3.Connection, table_name, data_dict: dict[str, str] ):
+    """
+    Добавляет данные в указанную таблицу SQLite.
+    Args:
+       con (sqlite3.Connection): Объект соединения с базой данных SQLite.
+       table_name (str): Название таблицы, куда будут добавлены данные.
+       data_dict (dict): Словарь, содержащий данные для вставки. Ключи - столбцы, значения - строки.
+    Returns:
+        None
+    """
+    ...
+
 def main() -> None:
     # Устанавливаем соединение с базой данных SQLite
     con = sqlite3.connect('words.db')
