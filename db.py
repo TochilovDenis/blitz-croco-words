@@ -1,7 +1,7 @@
 import sqlite3  # для работы с SQLite базами данных
 
 
-def add_data(con: sqlite3.Connection, table_name, data_dict: dict[str, str] ):
+def add_data(con: sqlite3.Connection, table_name, data_dict: list[tuple[str, int, float]]  ):
     """
     Добавляет данные в указанную таблицу SQLite.
     Args:
@@ -11,7 +11,11 @@ def add_data(con: sqlite3.Connection, table_name, data_dict: dict[str, str] ):
     Returns:
         None
     """
-    ...
+    # Создаем список значений для вставки
+    values = [str(value) for value in data_dict]
+    cur = con.cursor()
+    cur.executemany(f"INSERT INTO {table_name} VALUES({', '.join(['?' for _ in values])})", data_dict)
+    con.commit()
 
 def main() -> None:
     # Устанавливаем соединение с базой данных SQLite
@@ -31,8 +35,8 @@ def main() -> None:
         ("Monty Python's Life of Brian", 1979, 8.0),
     ]
 
-    # Используем executemany для вставки всех данных за один запрос
-    cur.executemany("INSERT INTO movie VALUES(?, ?, ?)", data)
+    # Добавляем данные в указанную таблицу
+    add_data(con, "movie", data)
 
     # Сохраняем изменения в базе данных
     con.commit()
